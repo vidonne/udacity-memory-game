@@ -1,7 +1,10 @@
 /*
  * Create a list that holds all of your cards
  */
+const deck = document.querySelector('.deck');
 
+//Empty array for open cards
+let openCards = [];
 
 /*
  * Display the cards on the page
@@ -25,7 +28,17 @@ function shuffle(array) {
     return array;
 }
 
-
+function shuffleDeck() {
+  //Go select all the cards on the deck and transform it into an array
+  const cardsToShuffle = [...document.querySelectorAll('.deck li')];
+  //Shuffle the cards using the provided shuffle() function
+  const cardsShuffled = shuffle(cardsToShuffle);
+  // Append every card to the deck
+  for (card of cardsShuffled) {
+    deck.appendChild(card);
+  }
+}
+shuffleDeck();
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
@@ -36,3 +49,34 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+ deck.addEventListener('click', function(event) {
+   //Verify that target is a card and not anything else
+   const clickTarget = event.target;
+   if(clickTarget.classList.contains('card') && openCards.length < 2) {
+     showSymbol(clickTarget);
+     cardList(clickTarget);
+     if (openCards.length === 2) {
+       checkMatch();
+     }
+   }
+ });
+
+//Toggle CSS classes to show symbol
+function showSymbol(clickTarget) {
+  clickTarget.classList.toggle('open');
+  clickTarget.classList.toggle('show');
+};
+
+//Add card to openCards array
+function cardList(clickTarget) {
+  openCards.push(clickTarget);
+};
+
+//Check if cards match
+function checkMatch() {
+  if (openCards[0].firstElementChild.className === openCards[1].firstElementChild.className) {
+    console.log("Match");
+  } else {
+    console.log("Don't match");
+  }
+};
