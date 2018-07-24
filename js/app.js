@@ -11,6 +11,9 @@ let moves = 0;
 const movesNumber = document.querySelector('.moves');
 movesNumber.innerHTML = moves;
 
+//Set time variable to 0
+let time = 0;
+let clockId;
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -57,7 +60,8 @@ shuffleDeck();
  deck.addEventListener('click', function(event) {
    //Verify that target is a card and not anything else
    const clickTarget = event.target;
-   if(clickTarget.classList.contains('card') && !clickTarget.classList.contains('match') && openCards.length < 2 && !openCards.includes(clickTarget)) {
+   if(isClickable(clickTarget)) {
+     timerStart();
      toggleSymbol(clickTarget);
      cardList(clickTarget);
      if (openCards.length === 2) {
@@ -65,6 +69,16 @@ shuffleDeck();
      }
    }
  });
+
+//Check all conditions if card is clickable
+function isClickable(clickTarget){
+  return (
+    clickTarget.classList.contains('card') &&
+    !clickTarget.classList.contains('match') &&
+    openCards.length < 2 &&
+    !openCards.includes(clickTarget)
+  );
+};
 
 //Toggle CSS classes to show symbol
 function toggleSymbol(clickTarget) {
@@ -122,11 +136,44 @@ function movesCheck() {
 };
 
 function hideStar() {
+  //Select all stars
   const stars = document.querySelectorAll('.stars li');
+  //Loop in stars and if not already hidden hide it and break loop.
   for (star of stars) {
     if (star.style.visibility !== 'hidden') {
       star.style.visibility = 'hidden';
       break;
     }
   }
+};
+
+//Timer start after first click
+function timerStart() {
+  clockId = setInterval(function() {
+    time ++;
+    displayTime();
+  }, 1000);
+};
+
+//Format time to display
+function displayTime() {
+  const clock = document.querySelector('.clock');
+  let formatMinutes = digit(Math.floor(time/60));
+  let formatSeconds = digit(time % 60);
+  clock.innerHTML = `${formatMinutes}:${formatSeconds}`;
+};
+
+//Add 0 in front of single digit
+function digit(val) {
+  let valString = val + "";
+  if (valString.length < 2) {
+    return "0" + valString;
+  } else {
+    return valString;
+  }
+};
+
+//Stop timer
+function timerStop() {
+  clearInterval(clockId);
 };
