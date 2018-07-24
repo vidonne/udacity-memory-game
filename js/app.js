@@ -6,6 +6,11 @@ const deck = document.querySelector('.deck');
 //Empty array for open cards
 let openCards = [];
 
+//Set moves to 0 and select the HTML element
+let moves = 0;
+const movesNumber = document.querySelector('.moves');
+movesNumber.innerHTML = moves;
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -52,8 +57,8 @@ shuffleDeck();
  deck.addEventListener('click', function(event) {
    //Verify that target is a card and not anything else
    const clickTarget = event.target;
-   if(clickTarget.classList.contains('card') && openCards.length < 2) {
-     showSymbol(clickTarget);
+   if(clickTarget.classList.contains('card') && !clickTarget.classList.contains('match') && openCards.length < 2 && !openCards.includes(clickTarget)) {
+     toggleSymbol(clickTarget);
      cardList(clickTarget);
      if (openCards.length === 2) {
        checkMatch();
@@ -62,7 +67,7 @@ shuffleDeck();
  });
 
 //Toggle CSS classes to show symbol
-function showSymbol(clickTarget) {
+function toggleSymbol(clickTarget) {
   clickTarget.classList.toggle('open');
   clickTarget.classList.toggle('show');
 };
@@ -75,8 +80,53 @@ function cardList(clickTarget) {
 //Check if cards match
 function checkMatch() {
   if (openCards[0].firstElementChild.className === openCards[1].firstElementChild.className) {
-    console.log("Match");
+    match();
   } else {
-    console.log("Don't match");
+    noMatch();
+  }
+  addMove();
+  movesCheck();
+};
+
+//If match add class .match and empty array
+function match() {
+  openCards[0].classList.toggle('match');
+  openCards[1].classList.toggle('match');
+  toggleSymbol(openCards[0]);
+  toggleSymbol(openCards[1]);
+  openCards = [];
+};
+
+//If no match toggle class .open and .show and empty array
+//Add setTimeout function to actually see the cards.
+function noMatch() {
+  setTimeout(function() {
+    toggleSymbol(openCards[0]);
+    toggleSymbol(openCards[1]);
+    openCards = [];
+  }, 1000);
+};
+
+//Increase number of Moves
+function addMove() {
+  moves ++;
+  movesNumber.innerHTML = moves;
+};
+
+//Star rating remove a star when passing a certain number of moves
+//First check the number of moves and call hideStar function
+function movesCheck() {
+  if (moves === 12 || moves === 24) {
+    hideStar();
+  }
+};
+
+function hideStar() {
+  const stars = document.querySelectorAll('.stars li');
+  for (star of stars) {
+    if (star.style.visibility !== 'hidden') {
+      star.style.visibility = 'hidden';
+      break;
+    }
   }
 };
