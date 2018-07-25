@@ -1,19 +1,18 @@
 /*
- * Create a list that holds all of your cards
+ * Globals
  */
-const deck = document.querySelector('.deck');
+const deck = document.querySelector('.deck'); //Create a list that holds all of your cards
+let openCards = []; //Empty array for open cards
+let moves = 0; //Set moves to 0
+const movesNumber = document.querySelector('.moves'); //Select the HTML element for moves
+movesNumber.innerHTML = moves; //Apply moves value to HTML
+let timerOff = true; //Set the condition to start timer on first click
+let time = 0; //Set time variable to 0
+let clockId; //Set a clockId to be use to stop the time
+const stars = document.querySelectorAll('.stars li'); //Select all stars
+let starCount = 3; //Set base number of stars
+const modal = document.querySelector('.modal_backgroud'); //Select the HTML element the modal
 
-//Empty array for open cards
-let openCards = [];
-
-//Set moves to 0 and select the HTML element
-let moves = 0;
-const movesNumber = document.querySelector('.moves');
-movesNumber.innerHTML = moves;
-
-//Set time variable to 0
-let time = 0;
-let clockId;
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -36,6 +35,7 @@ function shuffle(array) {
     return array;
 }
 
+//Creation of the Deck of shuffled cards
 function shuffleDeck() {
   //Go select all the cards on the deck and transform it into an array
   const cardsToShuffle = [...document.querySelectorAll('.deck li')];
@@ -44,6 +44,7 @@ function shuffleDeck() {
   // Append every card to the deck
   for (card of cardsShuffled) {
     deck.appendChild(card);
+    card.classList.remove('match', 'open', 'show');
   }
 }
 shuffleDeck();
@@ -61,7 +62,11 @@ shuffleDeck();
    //Verify that target is a card and not anything else
    const clickTarget = event.target;
    if(isClickable(clickTarget)) {
-     timerStart();
+     //Added if to limit to the 1st click only.
+     if (timerOff) {
+       timerStart();
+       timerOff = false;
+     }
      toggleSymbol(clickTarget);
      cardList(clickTarget);
      if (openCards.length === 2) {
@@ -100,6 +105,7 @@ function checkMatch() {
   }
   addMove();
   movesCheck();
+  gameOver();
 };
 
 //If match add class .match and empty array
@@ -118,7 +124,7 @@ function noMatch() {
     toggleSymbol(openCards[0]);
     toggleSymbol(openCards[1]);
     openCards = [];
-  }, 1000);
+  }, 800);
 };
 
 //Increase number of Moves
@@ -132,12 +138,20 @@ function addMove() {
 function movesCheck() {
   if (moves === 12 || moves === 24) {
     hideStar();
+    starCount--;
+  }
+};
+
+//Check if winning
+function gameOver() {
+  if (document.querySelectorAll('.match').length === 16) {
+    timerStop();
+    finalScore();
+    toggleModal();
   }
 };
 
 function hideStar() {
-  //Select all stars
-  const stars = document.querySelectorAll('.stars li');
   //Loop in stars and if not already hidden hide it and break loop.
   for (star of stars) {
     if (star.style.visibility !== 'hidden') {
@@ -177,3 +191,74 @@ function digit(val) {
 function timerStop() {
   clearInterval(clockId);
 };
+
+//Congratulations popup toggle
+function toggleModal() {
+  modal.classList.toggle('hide');
+};
+
+//Close modal with click on X and anywhere else but the popup.
+document.querySelector('.modal_close').addEventListener('click', toggleModal);
+
+window.addEventListener('click', function(event) {
+  if (event.target == modal) {
+    toggleModal();
+  }
+});
+
+//Replay modal button
+document.querySelector('.modal_replay').addEventListener('click', function() {
+  resetGame();
+  toggleModal();
+});
+
+//Replay general button
+document.querySelector('.restart').addEventListener('click', resetGame);
+
+//Get score and show them in modal
+function finalScore() {
+  const timeScore = document.querySelector('.modal_time');
+  const timeClock = document.querySelector('.clock').innerHTML;
+  const moveScore = document.querySelector('.modal_move');
+  const startScore = document.querySelector('.modal_star');
+  timeScore.innerHTML = timeClock;
+  moveScore.innerHTML = moves;
+  startScore.innerHTML = starCount;
+}
+
+/*
+ * Resets
+ */
+
+//Reset Game
+function resetGame() {
+  resetTime();
+  resetMoves();
+  resetStars();
+  shuffleDeck();
+};
+
+//Reset clock and time
+function resetTime() {
+  timerStop();
+  timerOff = true;
+  time = 0;
+  displayTime();
+};
+
+//Reset moves
+function resetMoves() {
+  moves = 0;
+  movesNumber.innerHTML = moves;
+};
+
+//Reset stars
+function resetStars() {
+  starCount = 3;
+  //Loop in stars and if hidden show it.
+  for (star of stars) {
+    if (star.style.visibility === 'hidden') {
+      star.style.visibility = 'visible';
+    }
+  }
+}

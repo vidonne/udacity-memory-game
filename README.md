@@ -15,6 +15,4 @@ The gameplay rules are very simple: flip over two hidden cards at a time to loca
 
 ## Todo
 
-1. Congratulations Popup
-2. Restart / Play again
-3. Identify winning
+1. Apply custom styling and animation.

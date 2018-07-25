@@ -36,9 +36,11 @@ h1 {
 /*
  * Styles for the modal
 */
+.hide {
+  display: none;
+}
 
 .modal_backgroud {
-  /* display: none; */
   position: fixed;
   z-index: 1;
   top: 0;
@@ -55,7 +57,7 @@ h1 {
   margin: 15% auto;
   padding: 0;
   border: 1px solid #888;
-  width: 20%;
+  width: 440px;
   text-align: center;
   /* -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
@@ -74,30 +76,35 @@ h1 {
   to {top:0; opacity:1}
 } */
 
-.close {
-  color: #fff;
+.modal_close {
+  color: #aaa;
   float: right;
   font-size: 28px;
   font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
+.modal_close:hover,
+.modal_close:focus {
   color: #000;
   text-decoration: none;
   cursor: pointer;
 }
 
-.modal_header,
-.modal_body {
+.modal_header {
   padding: 2px 16px;
 }
 
-.modal_header {
-  background-color: #02ccba;
-  color: #fff;
+.modal_header h2 {
+  margin-bottom: 0;
 }
 
+.modal_body {
+  padding: 0 48px 16px;
+}
+
+.modal_replay {
+  font-size: 16px;
+}
 /*
  * Styles for the deck of cards
  */
@@ -154,6 +161,9 @@ h1 {
     text-align: left;
     width: 345px;
     margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+
 }
 
 .score-panel .stars {
@@ -169,6 +179,6 @@ h1 {
 }
 
 .score-panel .restart {
-    float: right;
+    /* float: right; */
     cursor: pointer;
 }
