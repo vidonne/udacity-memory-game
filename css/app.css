@@ -28,10 +28,17 @@ body {
     flex-direction: column;
 }
 
+header {
+  width: 660px;
+}
+
 h1 {
     font-family: 'Open Sans', sans-serif;
     font-weight: 300;
+    text-align: center;
 }
+
+
 
 /*
  * Styles for the modal
@@ -59,14 +66,14 @@ h1 {
   border: 1px solid #888;
   width: 440px;
   text-align: center;
-  /* -webkit-animation-name: animatetop;
+  -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
   animation-name: animatetop;
-  animation-duration: 0.4s; */
+  animation-duration: 0.4s;
 }
 
 /* Add Animation */
-/* @-webkit-keyframes animatetop {
+@-webkit-keyframes animatetop {
   from {top:-300px; opacity:0}
   to {top:0; opacity:1}
 }
@@ -74,7 +81,7 @@ h1 {
 @keyframes animatetop {
   from {top:-300px; opacity:0}
   to {top:0; opacity:1}
-} */
+}
 
 .modal_close {
   color: #aaa;

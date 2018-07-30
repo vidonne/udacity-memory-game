@@ -1,10 +1,21 @@
 # Memory Game Project
 
+## Table of content
+
+* [Installation](#installation)
+* [Rules](#rules)
+* [Features](#features)
+* [Built With](#built-with)
+
+## Installation
+
+Download/clone to computer, open with your text editor or browser, and play.
+
 ## Rules
 
-The gameplay rules are very simple: flip over two hidden cards at a time to locate the ones that match!
+The gameplay rules are very simple: flip over two hidden cards at a time to locate the ones that match! The game begins when a card is clicked. Once all pairs are turned over, the game ends, displaying your score.
 
-## Instructions
+## Features
 
 * Memory Game Logic: The game randomly shuffles the cards. A user wins once all cards have successfully been matched.
 * Congratulations Popup: When a user wins the game, a modal appears to congratulate the player and ask if they want to play again. It should also tell the user how much time it took to win the game, and what the star rating was.
@@ -13,6 +24,16 @@ The gameplay rules are very simple: flip over two hidden cards at a time to loca
 * Timer: When the player starts a game, a displayed timer should also start. Once the player wins the game, the timer stops.
 * Move Counter: Game displays the current number of moves a user has made.
 
-## Todo
+## Built With
 
-1. Apply custom styling and animation.
+Languages:
+
+* HTML
+* CSS
+* JS
+
+Frameworks/Libraries/APIs:
+
+* [Font Awesome](https://fontawesome.com/) - Font and icon toolkit
+* [Google Fonts](https://fonts.google.com/) - Font library
+* [Subtle Patterns](https://www.toptal.com/designers/subtlepatterns/geometry-2/) - Background image
